@@ -44,7 +44,8 @@ class _PaystackPayNowState extends State<PaystackPayNow> {
   /// Makes HTTP Request to Paystack for access to make payment.
   Future<PaystackRequestResponse> _makePaymentRequest() async {
     http.Response? response;
-    final amount = widget.amount * 100;
+    // Paystack requires whole subunits; double * 100 can be 26666.000000000004.
+    final amount = (widget.amount * 100).round();
 
     try {
       // We'll create a modified metadata object with cancel_action.
